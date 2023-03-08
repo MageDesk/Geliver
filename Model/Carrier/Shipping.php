@@ -276,7 +276,7 @@ class Shipping extends \Magento\Shipping\Model\Carrier\AbstractCarrierOnline imp
         $newMethodObject = $this->_rateMethodFactory->create();
         $newMethodObject->setCarrier($this->getCarrierCode());
         $newMethodObject->setMethod($this->configDataProvider->getProviderCode());
-        $newMethodObject->setmethodTitle($this->configDataProvider->getProviderName());
+        $newMethodObject->setmethodTitle('');
         $newMethodObject->setCarrierTitle($this->configDataProvider->getName() ?? 'Geliver');
         $newMethodObject->setPrice($this->configDataProvider->getPrice());
 
