@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<schema xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <table name="magedesk_geliver_shipment" engine="innodb" comment="SHIPMENTs">
+    <column name="entity_id" xsi:type="int" comment="entity_id" nullable="true" identity="true" unsigned="true" padding="10"/>
+    <column name="order_id" xsi:type="varchar" comment="order_id" nullable="true"/>
+    <column name="offers" xsi:type="text" comment="offers" nullable="true"/>
+    <column name="label_url" xsi:type="varchar" comment="label_url" nullable="true"/>
+    <column name="amount" xsi:type="varchar" comment="amount" nullable="true"/>
+    <column name="length" xsi:type="varchar" comment="length" nullable="true"/>
+    <column name="height" xsi:type="varchar" comment="height" nullable="true"/>
+    <column name="width" xsi:type="varchar" comment="width" nullable="true"/>
+    <column name="weight" xsi:type="varchar" comment="weight" nullable="true"/>
+    <column name="shipment_id" xsi:type="varchar" comment="shipment_id" nullable="true"/>
+    <column name="is_shipped" xsi:type="int" comment="is_shipped" nullable="true"/>
+    <column name="magento_shipment_id" xsi:type="int" comment="magento_shipment_id" nullable="true"/>
+    <column name="barcode" xsi:type="varchar" comment="barcode" nullable="true"/>
+    <column name="track_number" xsi:type="varchar" comment="track_number" nullable="true"/>
+    <column name="provider" xsi:type="varchar" comment="provider" nullable="true"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="entity_id"/>
+    </constraint>
+  </table>
+</schema>

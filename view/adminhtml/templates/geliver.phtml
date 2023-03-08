@@ -1,0 +1,142 @@
+<?php
+/**
+ * @var \MageDesk\Geliver\Block\Adminhtml\Form $block
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+if (!$block->isGeliverShipment()) {
+    return;
+}
+
+/** @var \MageDesk\Geliver\Model\Data\Shipment $geliverShipment */
+$geliverShipment = $block->getGeliverShipment();
+$is_new = $geliverShipment->getOrderId() ? false : true;
+$offers = $geliverShipment->getOffers() ? json_decode($geliverShipment->getOffers(), true) : false;
+$is_shipped = $geliverShipment->getIsShipped() ? true : false;
+$formKey = $block->getFormKey();
+?>
+
+<section class="admin__page-section geliver">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Geliver Integration')); ?></span>
+    </div>
+    <?php if (!$offers && !$is_shipped): ?>
+        <div id="geliver_form" class="geliver_form">
+            <form class="form" id="custom-form" method="post" action="
+        <?= $block->escapeHtml(
+                $block->getUrl(
+                    'magedesk_geliver/ship/ship',
+                    ['shipment_id' => $block->getShipmentId(), 'method' => 'form']
+                )
+            ) ?>"
+                  autocomplete="off">
+                <input name="form_key" type="hidden" value="<?= $block->escapeHtml($formKey) ?>">
+                <input name="is_new" type="hidden" value="<?= $block->escapeHtml($is_new) ?>">
+                <table class="data-table admin__control-table" id="shipment_tracking_info">
+                    <thead>
+                    <tr class="headings">
+                        <th class="col-width">Box Width (cm)</th>
+                        <th class="col-height">Box Height (cm)</th>
+                        <th class="col-length">Box Length (cm)</th>
+                        <th class="col-weight">Box Weight (kg)</th>
+                        <th class="col-action">Action</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <td class="col-width">
+                            <input class="input-text admin__control-text" required="required"
+                                   type="number" id="width" name="width"
+                                   value="<?= $block->escapeHtml($geliverShipment->getWidth()) ?>">
+                        </td>
+                        <td class="col-height">
+                            <input class="input-text admin__control-text" required="required"
+                                   type="number" id="height" name="height"
+                                   value="<?= $block->escapeHtml($geliverShipment->getHeight()) ?>">
+                        </td>
+                        <td class="col-length">
+                            <input class="input-text admin__control-text" required="required"
+                                   type="number" id="length" name="length"
+                                   value="<?= $block->escapeHtml($geliverShipment->getLength()) ?>">
+                        </td>
+                        <td class="col-weight">
+                            <input class="input-text admin__control-text" required="required"
+                                   type="text" id="weight" name="weight"
+                                   value="<?= $block->escapeHtml($geliverShipment->getWeight()) ?>">
+                        </td>
+                        <td class="col-action">
+                            <button class="action" type="submit" id="del-track">
+                                <span>Teklif Al</span>
+                            </button>
+                            <br>
+                            <input type="checkbox" id="default_method" name="default_method" value="1">
+                            <label for="default_method">Varsayılan Gönderici ile Gönderi Oluştur</label>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+    <?php endif; ?>
+    <?php if ($offers && !$is_shipped): ?>
+        <div class="admin__page-section-item-title">
+            <span class="title">Teklifler</span>
+        </div>
+        <div class="admin__table-wrapper">
+            <table class="data-table admin__table-primary">
+                <thead>
+                <tr class="headings">
+                    <th class="col-kod"><span>Kod</span></th>
+                    <th class="col-isim"><span>İsim</span></th>
+                    <th class="col-fiyat"><span>Fiyat</span></th>
+                    <th class="col-süre"><span>Süre</span></th>
+                    <th class="col-actions"><span>Actions</span></th>
+                </tr>
+                </thead>
+                <tbody id="">
+                <?php foreach ($offers as $offer): ?>
+                    <tr title="#" id="">
+                        <td class="col-kod"><?= $block->escapeHtml($offer['providerCode']) ?></td>
+                        <td class="col-isim"><?= $block->escapeHtml($offer['providerServiceCode']) ?></td>
+                        <td class="col-fiyat"><?= $block->escapeHtml(
+                                $offer['amount'] . ' ' . $offer['currency']
+                            ) ?></td>
+                        <td class="col-süre"><?= $block->escapeHtml($offer['averageEstimatedTimeHumanReadible']) ?></td>
+                        <td class="col-actions">
+                            <a href="<?= $block->escapeHtml($block->getUrl('magedesk_geliver/ship/ship',
+                                ['offer_id' => $offer['id'], 'shipment_id' => $block->getShipmentId()])) ?>">
+                                Teklifi Kabul Et</a></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($is_shipped): ?>
+        <div class="admin__page-section-item-title">
+            <span class="title">Gönderi Bilgileri</span>
+        </div>
+        <div class="admin__table-wrapper">
+            <table class="data-table admin__table-primary">
+                <thead>
+                <tr class="headings">
+                    <th class="col-isim"><span>İsim</span></th>
+                    <th class="col-fiyat"><span>Fiyat</span></th>
+                    <th class="col-barkod"><span>Barkod</span></th>
+                    <th class="col-pdf"><span>Pdf</span></th>
+                </tr>
+                </thead>
+                <tbody id="">
+                <tr title="#" id="">
+                    <td class="col-isim"><?= $block->escapeHtml($geliverShipment->getProvider()) ?></td>
+                    <td class="col-fiyat"><?= $block->escapeHtml($geliverShipment->getAmount()) ?></td>
+                    <td class="col-barkod"><?= $block->escapeHtml($geliverShipment->getBarcode()) ?></td>
+                    <td class="col-barkod">
+                        <a href="<?= $block->escapeHtml($geliverShipment->getLabelUrl()) ?>"
+                           target="_blank">Label Pdf</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    <?php endif; ?>
+</section>

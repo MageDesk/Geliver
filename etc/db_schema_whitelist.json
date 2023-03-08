@@ -1,0 +1,24 @@
+{
+    "magedesk_geliver_shipment": {
+        "column": {
+            "entity_id": true,
+            "order_id": true,
+            "offers": true,
+            "label_url": true,
+            "amount": true,
+            "length": true,
+            "height": true,
+            "width": true,
+            "weight": true,
+            "shipment_id": true,
+            "is_shipped": true,
+            "magento_shipment_id": true,
+            "barcode": true,
+            "track_number": true,
+            "provider": true
+        },
+        "constaint": {
+            "PRIMARY": true
+        }
+    }
+}

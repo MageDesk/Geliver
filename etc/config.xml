@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author MageDesk Team
+ * @copyright Copyright (c) MageDesk (https://www.magedesk.com/)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <mgdskGlvr>
+                <title>Geliver</title>
+                <active>1</active>
+                <model>MageDesk\Geliver\Model\Carrier\Shipping</model>
+                <accessToken backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+            </mgdskGlvr>
+        </carriers>
+    </default>
+</config>
