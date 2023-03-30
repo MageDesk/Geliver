@@ -61,7 +61,8 @@ class ShipmentMapper extends AbstractMapper
         $responseData['recipientAddress']['name'] =
             $shippingAddress->getFirstname() . ' ' . $shippingAddress->getLastname();
         $responseData['recipientAddress']['email'] = $shippingAddress->getEmail();
-        $responseData['recipientAddress']['phone'] = '+90' . $shippingAddress->getTelephone();
+        $responseData['recipientAddress']['phone'] =         $responseData['recipientAddress']['phone'] = strlen($shippingAddress->getTelephone()) == 13 ?
+            $shippingAddress->getTelephone() : '+90' . $shippingAddress->getTelephone();
         $responseData['recipientAddress']['address1'] =
             $shippingAddress->getStreetLine(1) . ' ' . $shippingAddress->getStreetLine(2);
         $responseData['recipientAddress']['countryCode'] = $shippingAddress->getCountryId();
